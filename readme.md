@@ -8,6 +8,8 @@ Use python script to generate a yml configuration file for existing Fortios FW i
 
 - Run ansible-playbook against the .yml configuration file to configure the Firewall Instance.
 
+- Generates shell scripts for functions that are not accessible via ansible-playbook 
+
 ## Components & Libraries
 
 - AWS VPC, EC2

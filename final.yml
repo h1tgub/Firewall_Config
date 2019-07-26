@@ -23,9 +23,9 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom: "{{ vdom }}"
-      https: True
+      https: "True"
       system_zone:
-        state: "present"
+        state: "{{system_zone_state}}"
         name: "{{ system_zone_name }}"
         interface:
         - interface-name: "{{ system_zone_int_name }}"
@@ -38,7 +38,7 @@
       https: "True"
       vpn_ipsec_phase1_interface:
         state: "present"
-        acct-verify: "enable"
+        acct-verify: "{{ phase_1_acct_verify }}"
         dpd: "{{ phase_1_dpd }}"
         local-gw: "{{ phase_1_localgw }}"
         dhgrp: "{{ phase_1_dhgrp }}"
@@ -66,7 +66,7 @@
       https: "yes"
       system_interface:
         name: "{{ system_int_name }}"
-        state: "present"
+        state: "{{ system_int_state }}"
         type: "{{ system_int_type }}"
         ip: "{{system_int_ip }}"
         remote-ip: "{{ system_int_remote_ip }}"
@@ -79,7 +79,7 @@
       vdom: "{{ vdom }}"
       https: "True"
       vpn_ipsec_phase2_interface:
-        state: "present"
+        state: "{{ phase_2_state }}"
         dhgrp: "{{ phase_2_dhgrp }}"
         phase1name: "{{ phase_1_name }}"
         proposal: "{{ phase_1_proposal }}"
@@ -113,10 +113,10 @@
       vdom: "{{ vdom }}"
       https: "True"
       firewall_policy:
-        state: "present"
-        action: "accept"
+        state: "{{ policy_state }}"
+        action: "{{ policy_action }}"
         policyid: "{{ policy_id_in }}"
-        status: "enable"
+        status: "{{ policy_status }}"
         srcintf:
          -
            name: "{{ policy_src_intf }}"
@@ -125,13 +125,13 @@
            name: "{{ policy_dst_intf }}"
         srcaddr:
          -
-           name: "all"
+           name: "{{ policy_src_addr_in }}"
         dstaddr:
          -
-           name: "all"
+           name: "{{ policy_dst_addr_in }}"
         service:
          -
-           name: "ALL"
+           name: "{{ policy_service_in }}"
   - name: configure firewall ipv4 policy outside
     fortios_firewall_policy:
       host: "{{ host }}"
@@ -140,10 +140,10 @@
       vdom: "{{ vdom }}"
       https: "True"
       firewall_policy:
-        state: "present"
-        action: "accept"
+        state: "{{ policy_state }}"
+        action: "{{ policy_action }}"
         policyid: "{{ policy_id_out }}"
-        status: "enable"
+        status: "{{ policy_status }}"
         srcintf:
          -
            name: "{{ policy_dst_intf }}"
@@ -152,10 +152,10 @@
            name: "{{ policy_src_intf }}"
         srcaddr:
          -
-           name: "all"
+           name: "{{ policy_src_addr_out }}"
         dstaddr:
          -
-           name: "all"
+           name: "{{ policy_dst_addr_out }}"
         service:
          -
-           name: "ALL"
+           name: "{{ policy_service_addr_out }}"

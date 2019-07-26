@@ -53,7 +53,7 @@ def main():
     router_bgp_remote = root[3][1][2][0].text
     router_bgp_network_id = host
     router_bgp_router_id = host
-    system_zone_name = "TestZoneChen"
+    system_zone_name = "Zone_1"
 # hard coding the configs that are not
 # available from data previous from aws
 # issue: default proposal aes-128 is not
@@ -62,7 +62,9 @@ def main():
     timezone = "04"
     system_alias = "FW name"
     system_int_name = "vpnintf"
+    system_int_state = "present"
     system_zone_int_name = system_int_name
+    system_zone_state = "present"
     phase_1_dpd = "on-demand"
     phase_1_dhgrp = "2"
     phase_1_proposal= "aes128-sha1"
@@ -74,11 +76,22 @@ def main():
     phase_1_encap = "none"
     phase_1_encap_addr = "ike"
     phase_1_modecfg = "disable"
+    phase_1_acct_verify = "enable"
     phase_2_dhgrp = phase_1_dhgrp
     phase_2_pfs = "enable"
     phase_2_int_name = "phase_2_intf"
+    phase_2_state = "present"
     router_bgp_capability_default_originate = "enable"
     policy_src_intf = "Public"
+    policy_action = "accept"
+    policy_state = "present"
+    policy_status = "enable"
+    policy_src_addr_in = "all"
+    policy_dst_addr_in = "all"
+    policy_service_in = "ALL"
+    policy_src_addr_out = "all"
+    policy_dst_addr_out = "all"
+    policy_service_out = "ALL"
     #!!! this config will overwrite any policy with id=policy_id
     policy_id_in = "69"
     policy_id_out = "96"
@@ -107,6 +120,20 @@ def main():
         'policy_src_intf: "'+policy_src_intf+'"\n'
         'policy_id_in: "'+policy_id_in+'"\n'
         'policy_id_out: "'+policy_id_out+'"\n'
+        'system_int_state: "'+system_int_state+'"\n'
+        'system_zone_state: "'+system_zone_state+'"\n'
+        'phase_1_acct_verify: "'+phase_1_acct_verify+'"\n'
+        'phase_2_state: "'+phase_2_state+'"\n'
+        'policy_action: "'+policy_action+'"\n'
+        'policy_state: "'+policy_state+'"\n'
+        'policy_status: "'+policy_status+'"\n'
+        'policy_src_addr_in: "'+policy_src_addr_in+'"\n'
+        'policy_dst_addr_in: "'+policy_dst_addr_in+'"\n'
+        'policy_service_in: "'+policy_service_in+'"\n'
+        'policy_src_addr_out: "'+policy_src_addr_out+'"\n'
+        'policy_dst_addr_out: "'+policy_dst_addr_out+'"\n'
+        'policy_service_out: "'+policy_service_out+'"\n'
+        
 )
     # needs to munually input this config through cli because fortios does not 
     # currently have a module for route-map configuration 
@@ -117,7 +144,6 @@ def main():
         '    set prefix 0.0.0.0 0.0.0.0\n'
         '   next\n'
         '  end\n'
-        ' set router-id'+host+'\n'
         'end\n\n'
         'config router route-map\n'
         ' edit "routemap1"\n'
